@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--<script src="http://www.google.com/recaptcha/api.js"></script>-->
+    </head>
+    
+    <body>
+        <form method="post" action="checkUserServlet">
+            <table border="1" align="center" cellpadding="10" style="margin-top:150px;font-size: 30px ">
+            <tr>
+                <th>Email:</th>
+                <td><input style="font-size: 30px" type="text" name="txtemail"></td>
+            </tr>
+            <tr>
+                <th>Password:</th>
+                <td><input style="font-size: 30px" type="password" name="txtpass"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <!--<div class="g-recaptcha" data-sitekey="6LeS990UAAAAAEqHt_Xb53PZV7xtnVli-5c_KQOg"></div>-->
+                    <div class="g-recaptcha" data-type="image" data-sitekey="6LdRBN4UAAAAAOt_4rHe0TTBnOeFvnzwYyxNCZLN" data-callback="onSubmit"></div>
+                </td>
+            </tr>
+            <tr>
+                
+                <th colspan="2"><input style="font-size: 30px" type="submit" value="Login"></th>
+            </tr>
+            <tr>
+                <td colspan="2"><a href="/ComputerShop/RegisterServlet"> Not Register yet ...</a></td>
+            </tr>
+        </table>
+        </form>
+    </body>
+</html>
