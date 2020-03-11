@@ -33,7 +33,9 @@
                 <td><input type="password" name="txtpass"/> </td>
             </tr>
             <tr>
-                <td colspan="2"><input type="submit" value="LOGIN"/> </td>
+                <td><input type="submit" value="LOGIN"/> </td>
+                <td> <a href="/ComputerShop/userForm.jsp">Not Register yet..?</a> </td>
+                
             </tr>
         </table>
         </form>
