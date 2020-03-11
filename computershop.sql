@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 08, 2020 at 04:51 AM
+-- Generation Time: Mar 11, 2020 at 07:46 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.26
 
@@ -22,6 +22,19 @@ SET time_zone = "+00:00";
 -- Database: `computershop`
 --
 
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`` PROCEDURE `sp_insertCart` (IN `iid` INT, IN `qty` INT, IN `uid` INT)  NO SQL
+INSERT INTO cart (ItemId,Quantity,userId)
+SELECT * FROM (SELECT iid,qty,uid) AS tmp
+WHERE NOT EXISTS (
+    SELECT iid FROM cart WHERE cart.ItemId = iid
+) LIMIT 1$$
+
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -30,11 +43,17 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `cart` (
   `cartId` int(11) NOT NULL,
-  `ItemId` int(11) NOT NULL,
-  `Quantity` int(11) NOT NULL,
-  `CreatedDate` date NOT NULL DEFAULT current_timestamp(),
-  `userId` int(11) NOT NULL
+  `ItemId` int(11) DEFAULT NULL,
+  `Quantity` int(11) DEFAULT NULL,
+  `userId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`cartId`, `ItemId`, `Quantity`, `userId`) VALUES
+(7, 1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -54,7 +73,8 @@ CREATE TABLE `category` (
 INSERT INTO `category` (`CategoryId`, `CategoryName`) VALUES
 (1, 'mouse'),
 (2, 'keyboard'),
-(3, 'Laptop');
+(3, 'Laptop'),
+(4, 'headphones');
 
 -- --------------------------------------------------------
 
@@ -79,7 +99,31 @@ INSERT INTO `item` (`ItemId`, `ItemName`, `ItemPrice`, `CategoryId`) VALUES
 (3, 'Lenovo', 45000, 3),
 (4, 'HP', 56000, 3),
 (5, 'TVS', 1100, 1),
-(6, 'TVS', 1250, 2);
+(6, 'TVS', 1250, 2),
+(7, 'Boat', 2000, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log`
+--
+
+CREATE TABLE `log` (
+  `id` int(11) NOT NULL,
+  `sessionId` varchar(80) NOT NULL,
+  `creationTime` date NOT NULL,
+  `lastAccessedTime` date NOT NULL,
+  `userId` int(11) NOT NULL,
+  `visit` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `log`
+--
+
+INSERT INTO `log` (`id`, `sessionId`, `creationTime`, `lastAccessedTime`, `userId`, `visit`) VALUES
+(1, '854a5c72b57b4398a36dbb1bfc12', '2020-03-10', '2020-03-10', 2, 2),
+(2, '8570b9c1bd43dbe36d2c2eb1fbf9', '2020-03-10', '2020-03-10', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -149,6 +193,12 @@ ALTER TABLE `item`
   ADD KEY `fkCategiryId` (`CategoryId`);
 
 --
+-- Indexes for table `log`
+--
+ALTER TABLE `log`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `role`
 --
 ALTER TABLE `role`
@@ -169,19 +219,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cartId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cartId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `CategoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `CategoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `ItemId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ItemId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `log`
+--
+ALTER TABLE `log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `role`

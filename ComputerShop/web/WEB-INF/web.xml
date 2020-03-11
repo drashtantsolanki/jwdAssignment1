@@ -8,6 +8,10 @@
         <filter-name>myFilter</filter-name>
         <url-pattern>/index.html</url-pattern>
     </filter-mapping>
+    <listener>
+        <description>ServletContextListener, HttpSessionAttributeListener</description>
+        <listener-class>listener.HttpAttributeListener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>servlets.RegisterServlet</servlet-class>
