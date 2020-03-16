@@ -14,10 +14,17 @@
     <body>
         <%
             String err=null;
+            String otperr=null;
             err=(String)request.getAttribute("err");
+            otperr=(String)request.getAttribute("otperr");
             if(err!="" && err!=null)
             {
                 out.println(err);
+            }
+            
+            if(otperr!="" && otperr!=null)
+            {
+               out.println(otperr);
             }
             
         %>
@@ -35,8 +42,11 @@
             <tr>
                 <td><input type="submit" value="LOGIN"/> </td>
                 <td> <a href="/ComputerShop/userForm.jsp">Not Register yet..?</a> </td>
-                
             </tr>
+            <tr>
+                <td> <a href="/ComputerShop/forgotPassword.jsp"> Forgot Password?? </a> </td>
+            </tr>
+            
         </table>
         </form>
     </body>

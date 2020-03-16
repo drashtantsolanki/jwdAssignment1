@@ -30,7 +30,7 @@
         
         <table align="center" border="1">
             <tr>
-                <td><c:out value="${userid}"/></td>
+                <td><c:out value="${userid}"/><a href="/ComputerShop/cart.jsp">CART</a></td>
             </tr>
                 <tr>
                     <th>Id</th>

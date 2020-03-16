@@ -4,6 +4,10 @@
     Author     : hi
 --%>
 
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="model.jdbcConnection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -17,8 +21,10 @@
     <body>
         <%
             HttpSession ses=request.getSession();
+            int uid=Integer.parseInt((String)ses.getAttribute("userid"));
+            int iid=Integer.parseInt(request.getParameter("iid"));
         %>
-        <sql:setDataSource var="db" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost/computershop" user="root" password="root" />
+        <%--     <sql:setDataSource var="db" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost/computershop" user="root" password="root" />
         <sql:query dataSource="${db}" var="res">
             SELECT * FROM cart WHERE userId=?
             <sql:param value="${userid}" />
@@ -51,7 +57,35 @@
                             </c:if>
                     </c:otherwise>
                 </c:choose>
-            </c:forEach>
-            
+            </c:forEach> --%>
+            <%
+                jdbcConnection obj=new jdbcConnection();
+                Statement st=obj.con.createStatement();
+                ResultSet res=st.executeQuery("select * from cart where itemid="+iid+" and userid="+uid );
+                int i=0;
+                while(res.next())
+                {
+                    i++;
+                }
+                if(i==0)
+                {
+                    PreparedStatement ps=obj.con.prepareStatement("insert into cart(itemid,quantity,userid) values(?,?,?)");
+                    ps.setInt(1, iid);
+                    ps.setInt(2, 1);
+                    ps.setInt(3, uid);
+                    int j=ps.executeUpdate();
+                    if(j>0)
+                    {
+                        request.setAttribute("msg", "item added");
+                        response.sendRedirect("userIndex.jsp");
+                    }
+                }
+                else
+                {
+                    request.setAttribute("msg", "Item Already Exists");
+                    response.sendRedirect("userIndex.jsp");
+                }
+                
+            %>
     </body>
 </html>
